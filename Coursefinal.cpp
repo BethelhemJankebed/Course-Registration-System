@@ -42,13 +42,15 @@ struct Student {
         
         sqlite3_stmt* stmt;
 
-        if (sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr) == SQLITE_OK) {
+        if (sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr) == SQLITE_OK) {//nullptr, you're telling the function, "I don't have a valid pointer to provide for this parameter," or 
+		//"I'm not interested  in the information this parameter would provide."
             sqlite3_bind_text(stmt, 1, department.c_str(), -1, SQLITE_TRANSIENT);
             sqlite3_bind_text(stmt, 2, semester.c_str(), -1, SQLITE_TRANSIENT);
             bool found = false;
             while (sqlite3_step(stmt) == SQLITE_ROW) {
                 found = true;
                 cout << "Course ID: " << sqlite3_column_text(stmt, 0) << " ";
+		    ////sqlite3_column_text(stmt, 0) → Retrieves the value from the first column in the current row.
                 cout << "Course Name: " << sqlite3_column_text(stmt, 1) << endl;
             }
             if (!found) {
