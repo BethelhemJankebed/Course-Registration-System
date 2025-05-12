@@ -1,19 +1,57 @@
-Course Registration System
-Overview
-The Course Registration System is a C++ application using SQLite to manage course enrollment for students and course administration by admins. It ensures students meet all prerequisite requirements before registering for courses, providing a reliable way to handle academic registration processes.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course Registration System</title>
+</head>
+<body>
 
-Features
-Student login and course registration
+  <h1>Course Registration System</h1>
 
-Prerequisite checking before enrollment
+  <h2>Overview</h2>
+  <p>
+    The <strong>Course Registration System</strong> is a C++ application using SQLite to manage course enrollment for students and course administration by admins. 
+    It ensures students meet all prerequisite requirements before registering for courses, providing a reliable way to handle academic registration processes.
+  </p>
 
-Administrator login to manage courses 
+  <h2>Features</h2>
+  <ul>
+    <li>Student login and course registration</li>
+    <li>Prerequisite checking before enrollment</li>
+    <li>Administrator login to manage courses and students</li>
+    <li>Add, update, and delete courses</li>
+    <li>Define and manage course prerequisites</li>
+  </ul>
 
-Add, update, and delete courses
+  <h2>Technologies Used</h2>
+  <ul>
+    <li><strong>C++</strong> for application logic</li>
+    <li><strong>SQLite</strong> for database storage</li>
+  </ul>
 
-Define and manage course prerequisites
+  <h2>How to Run</h2>
+  <ol>
+    <li>Ensure you have a C++ compiler (e.g., <code>g++</code>) and SQLite installed.</li>
+    <li>Compile the source code:
+      <pre><code>g++ -o registration_system main.cpp -lsqlite3</code></pre>
+    </li>
+    <li>Run the executable:
+      <pre><code>./registration_system</code></pre>
+    </li>
+  </ol>
 
-Technologies Used
-C++ for application logic
+  <h2>Database</h2>
+  <p>The system uses an SQLite database file (<code>courses.db</code>) which includes the following tables:</p>
+  <ul>
+    <li><code>students</code></li>
+    <li><code>courses</code></li>
+    <li><code>registrations</code></li>
+    <li><code>prerequisites</code></li>
+  </ul>
+  <p>The database is created and initialized automatically if it doesn't exist.</p>
 
-SQLite for database storage
+  <h2>License</h2>
+  <p>This project is for educational purposes.</p>
+
+</body>
+</html>
