@@ -5,7 +5,7 @@ using namespace std;
 
 struct Student {
     string name;
-    int ID;
+    int ID=0;
     string department;
     string semester;
     string year;
@@ -169,7 +169,7 @@ struct Student {
 
 struct Admin {
     string name;
-    int empid;
+    int empid=0;
 
     void getdata() {
         cout << "Enter your name: ";
@@ -255,19 +255,63 @@ int main() {
         cerr << "Can't open database: " << sqlite3_errmsg(db) << endl;
         return 1;
     }
+    // Enable foreign key support (must be done immediately after opening the DB)
+    sqlite3_exec(db, "PRAGMA foreign_keys = ON;", nullptr, nullptr, nullptr);
 
-    string createStudentsTable = "CREATE TABLE IF NOT EXISTS Students (studentID INTEGER PRIMARY KEY, name TEXT, department TEXT, semester TEXT, year TEXT);";
-    sqlite3_exec(db, createStudentsTable.c_str(), nullptr, nullptr, nullptr);
-    
-    string createCoursesTable = "CREATE TABLE IF NOT EXISTS Courses (courseID TEXT PRIMARY KEY, courseName TEXT, department TEXT, semester TEXT, prerequisite TEXT);";
-    sqlite3_exec(db, createCoursesTable.c_str(), nullptr, nullptr, nullptr);
+    // Error message pointer for diagnostics
+    char* errMsg = nullptr;
 
-    string createRegistrationsTable = "CREATE TABLE IF NOT EXISTS Registrations (studentID INTEGER, courseID TEXT, PRIMARY KEY (studentID, courseID), FOREIGN KEY (studentID) REFERENCES Students(studentID), FOREIGN KEY (courseID) REFERENCES Courses(courseID));";
-    sqlite3_exec(db, createRegistrationsTable.c_str(), nullptr, nullptr, nullptr);
-    cout << "Using database: C:/Users/beka/Desktop/sqlite db/registration.db" << endl;
+    // Create Students table
+    string createStudentsTable = R"(
+    CREATE TABLE IF NOT EXISTS Students (
+        studentID INTEGER PRIMARY KEY,
+        name TEXT,
+        department TEXT,
+        semester TEXT,
+        year TEXT
+    );
+)";
+    int rc1 = sqlite3_exec(db, createStudentsTable.c_str(), nullptr, nullptr, &errMsg);
+    if (rc1 != SQLITE_OK) {
+        cerr << "Error creating Students table: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
 
+    // Create Courses table
+    string createCoursesTable = R"(
+    CREATE TABLE IF NOT EXISTS Courses (
+        courseID TEXT PRIMARY KEY,
+        courseName TEXT,
+        department TEXT,
+        semester TEXT,
+        prerequisite TEXT
+    );
+)";
+    int rc2 = sqlite3_exec(db, createCoursesTable.c_str(), nullptr, nullptr, &errMsg);
+    if (rc2 != SQLITE_OK) {
+        cerr << "Error creating Courses table: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+    // Create Registrations table
+    string createRegistrationsTable = R"(
+    CREATE TABLE IF NOT EXISTS Registrations (
+        studentID INTEGER,
+        courseID TEXT,
+        PRIMARY KEY (studentID, courseID),
+        FOREIGN KEY (studentID) REFERENCES Students(studentID),
+        FOREIGN KEY (courseID) REFERENCES Courses(courseID)
+    );
+)";
+    int rc3 = sqlite3_exec(db, createRegistrationsTable.c_str(), nullptr, nullptr, &errMsg);
+    if (rc3 != SQLITE_OK) {
+        cerr << "Error creating Registrations table: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+   
     char choice;
-    cout << "Enter 's' for student or 'a' for admin: ";
+    cout << " Enter 's' for student or 'a' for admin: ";
     cin >> choice;
 
     if (choice == 's' || choice == 'S') {
