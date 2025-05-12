@@ -29,16 +29,6 @@
     <li><strong>SQLite</strong> for database storage</li>
   </ul>
 
-  <h2>How to Run</h2>
-  <ol>
-    <li>Ensure you have a C++ compiler (e.g., <code>g++</code>) and SQLite installed.</li>
-    <li>Compile the source code:
-      <pre><code>g++ -o registration_system main.cpp -lsqlite3</code></pre>
-    </li>
-    <li>Run the executable:
-      <pre><code>./registration_system</code></pre>
-    </li>
-  </ol>
 
   <h2>Database</h2>
   <p>The system uses an SQLite database file (<code>courses.db</code>) which includes the following tables:</p>
@@ -46,7 +36,6 @@
     <li><code>students</code></li>
     <li><code>courses</code></li>
     <li><code>registrations</code></li>
-    <li><code>prerequisites</code></li>
   </ul>
   <p>The database is created and initialized automatically if it doesn't exist.</p>
 
